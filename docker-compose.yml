@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  postgresql:
+    image: postgres:13-alpine
+    container_name: postgresql
+    ports:
+      - 5432:5432
+    # env_file: .env.db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  
+  splunk:
+    image: ${SPLUNK_IMAGE:-splunk/splunk:latest}
+    container_name: splunk
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD
+      - JAVA_VERSION
+      - JAVA_HOME
+    ports:
+      - 8000:8000
