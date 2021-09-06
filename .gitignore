@@ -1,0 +1,4 @@
+.env
+.env.db
+.env.splunk
+.DS_Store
