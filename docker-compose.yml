@@ -4,6 +4,8 @@ services:
   postgresql:
     build: ./postgres
     container_name: postgresql
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
     # env_file: .env.db
