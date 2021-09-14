@@ -13,6 +13,9 @@ services:
   splunk:
     build: ./splunk
     container_name: splunk
+    volumes:
+      - ./splunk/app:/opt/splunk/etc/apps
+
     ports:
       - 8000:8000
     depends_on: 
