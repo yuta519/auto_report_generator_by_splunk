@@ -1,0 +1,32 @@
+[inputs/http%3A%2F%2Fdb-connect-http-input]
+access = read : [ admin ], write : [ admin ]
+export = none
+owner = nobody
+version = 8.2.2
+modtime = 1631589822.280493000
+
+[ui-metrics-collector/collector]
+version = 8.2.2
+modtime = 1631590203.599880000
+
+[app/install/is_configured]
+version = 8.2.2
+modtime = 1631590248.952594000
+
+[identities/postgresql]
+access = read : [ admin, db_connect_admin, db_connect_user ], write : [ admin, db_connect_admin ]
+export = none
+owner = admin
+version = 8.2.2
+modtime = 1631590394.338953000
+
+[db_connections/postgresql]
+access = read : [ admin, db_connect_admin, db_connect_user ], write : [ admin, db_connect_admin ]
+export = none
+owner = admin
+version = 8.2.2
+modtime = 1631590406.155084000
+
+[dbx_settings/java]
+version = 8.2.2
+modtime = 1631608848.702376000

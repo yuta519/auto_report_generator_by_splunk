@@ -1,0 +1,31 @@
+[app/ui]
+version = 8.2.2
+modtime = 1631590519.427558000
+
+[app/launcher]
+version = 8.2.2
+modtime = 1631590519.445327000
+
+[views/test]
+owner = admin
+version = 8.2.2
+modtime = 1631590605.156654000
+
+[views/pa_app_traffic_top10]
+owner = admin
+version = 8.2.2
+modtime = 1631604806.627039000
+
+[views/pa_app_traffice_user_top10]
+owner = admin
+version = 8.2.2
+modtime = 1631604558.599553000
+
+[views/pa_app_traffic_category_top10]
+owner = admin
+version = 8.2.2
+modtime = 1631605098.930680000
+
+[nav/default]
+version = 8.2.2
+modtime = 1631607248.448477000

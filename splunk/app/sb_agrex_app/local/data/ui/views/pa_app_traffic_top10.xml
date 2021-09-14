@@ -1,0 +1,60 @@
+<form>
+  <label>アプリケーション別通信量分析 TOP10</label>
+  <fieldset submitButton="true">
+    <input type="text" token="start_date">
+      <label>Start Date</label>
+    </input>
+    <input type="text" token="end_date">
+      <label>End Date</label>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>アプリケーション別通信量分析 TOP10 (グラフ)</title>
+      <chart>
+        <title>許可通信(アプリケーション)を対象として月間で通信量が多かったアプリケーションの上位10件は以下の通りです。内容をご確認の上、通信量の傾向分析にお役立てください。</title>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND date &gt;= $start_date$ AND date &lt;= $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb) by app
+| sort - sum(mb) 
+| head 10
+| rename sum(mb) as 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.size">large</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>アプリケーション別通信量分析 TOP10(表)</title>
+      <table>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND date &gt;= $start_date$ AND date &lt;= $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb) by app
+| sort - sum(mb) 
+| head 10
+| rename sum(mb) as 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

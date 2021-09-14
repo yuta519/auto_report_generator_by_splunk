@@ -8,7 +8,7 @@ db_host="localhost"
 db_tbl="app_report"
 
 # Please replace a log file to parse
-target_log_file='trafficlogs.csv'
+target_log_file=$1
 
 echo $(sed -i '1d' ${target_log_file})
 echo $(mkdir ./tmp && split -l 1000 ${target_log_file} ./tmp/trafficlogs_)
@@ -21,7 +21,7 @@ function insert_parsed_log() {
 		users=$(awk -F',' 'BEGIN {app="'"$app"'"} (match($15, "^" app)) {print $8}' ${1} | sort -u)
 		for user in ${users};do
 			arr=$(grep ${app} ${1} | grep ${user} | cut -d , -f 7,31,38 | sort -u)
-			date=$(echo ${arr} | cut -d " " -f 1)
+			date=$(echo ${arr} | cut -d " " -f 1)' 00:00:00'
 			act=$(echo ${arr} | cut -d , -f 2)
 			appcate=$(echo ${arr} | cut -d , -f 3 | cut -d " " -f 1)
 			bytes=$(awk -F',' 'BEGIN {user="'"$user"'"}{app="'"$app"'"} (match($8, "^" user) && match($15, "^" app)) {sum+=$32} END {print sum}' ${1})

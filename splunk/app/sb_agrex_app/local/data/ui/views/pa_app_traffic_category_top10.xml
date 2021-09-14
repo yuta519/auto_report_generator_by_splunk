@@ -1,0 +1,221 @@
+<form>
+  <label>アプリケーションカテゴリ別通信量分析TOP10</label>
+  <description>許可通信(アプリケーション)を対象として情報漏洩やウイルス感染などのセキュリティ事故につながる可能性があるアプリケーションカテゴリ別に記載しております。</description>
+  <fieldset submitButton="true">
+    <input type="text" token="start_date">
+      <label>Start Date</label>
+    </input>
+    <input type="text" token="end_date">
+      <label>End Date</label>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>ファイル共有アプリ</title>
+      <table>
+        <title>このカテゴリに分類されるアプリケーションを利用するリスクとして、外部への機密情報の持ち出しによる情報漏洩やウイルス・ワームなどの感染被害が考えられます。</title>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND appcate=online-storage-and-backup AND date &gt;= $start_date$ AND date &lt;= $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb), dc(srcip) by app
+| sort - sum(mb)
+| head 5
+| rename sum(mb) as 通信量(MB)
+| rename dc(srcip) as 利用者数
+| table app 利用者数 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>P2Pアプリ</title>
+      <table>
+        <title>このカテゴリに分類されるアプリケーションを利用するリスクとして、外部への機密情報の持ち出しによる情報漏洩やウイルス・ワームなどの感染被害が考えられます。</title>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND appcate=Peer-to-Peer AND date &gt;= $start_date$ AND date &lt;= $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb), dc(srcip) by app
+| sort - sum(mb)
+| head 5
+| rename sum(mb) as 通信量(MB)
+| rename dc(srcip) as 利用者数
+| table app 利用者数 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Webメール</title>
+      <table>
+        <title>このカテゴリに分類されるアプリケーションを利用するリスクとして、外部への機密情報の持ち出しによる情報漏洩やウイルス・ワームなどの感染被害が考えられます。</title>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND appcate=Web-based-Email AND date &gt;= $start_date$ AND date &lt;= $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb), dc(srcip) by app
+| sort - sum(mb)
+| head 5
+| rename sum(mb) as 通信量(MB)
+| rename dc(srcip) as 利用者数
+| table app 利用者数 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Webポスティング(個人ブログなど)アプリ</title>
+      <table>
+        <title>このカテゴリに分類されるアプリケーションを利用するリスクとして、外部への機密情報の投稿による情報漏洩や誹謗中傷などの書き込みが行われる可能性があります。</title>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND appcate=personal-sites-and-blogs AND date &gt;= $start_date$ AND date &lt;= $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb), dc(srcip) by app
+| sort - sum(mb)
+| head 5
+| rename sum(mb) as 通信量(MB)
+| rename dc(srcip) as 利用者数
+| table app 利用者数 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>インスタントメッセージアプ</title>
+      <table>
+        <title>このカテゴリに分類されるアプリケーションを利用するリスクとして、外部への機密情報の持ち出しによる情報漏洩やウイルス・ワームなどの感染被害が考えられます。</title>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND appcate=Internet-Communications-and-Telephony AND date &gt;= $start_date$ AND date &lt;= $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb), dc(srcip) by app
+| sort - sum(mb)
+| head 5
+| rename sum(mb) as 通信量(MB)
+| rename dc(srcip) as 利用者数
+| table app 利用者数 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>フォト・動画</title>
+      <table>
+        <title>このカテゴリに分類されるアプリケーションを利用するリスクとして、大量データ送受信によるネットワークリソースの輻輳を引き起こす可能性があります。</title>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND appcate=Games AND date &gt;= $start_date$ AND date &lt;= $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb), dc(srcip) by app
+| sort - sum(mb)
+| head 5
+| rename sum(mb) as 通信量(MB)
+| rename dc(srcip) as 利用者数
+| table app 利用者数 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>ゲーム</title>
+      <table>
+        <title>このカテゴリに分類されるアプリケーションを利用するリスクとして、大量データ送受信によるネットワークリソースの輻輳を引き起こす可能性があります。</title>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND appcate=Games AND date &gt;= $start_date$ AND date &lt;= $end_date$
+| stats sum(bytes), count(srcip) by app
+| sort - sum(bytes)
+| head 5
+| rename sum(bytes) as 通信量(bytes)
+| rename count(srcip) as 利用者数
+| table app 利用者数 通信量(bytes)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

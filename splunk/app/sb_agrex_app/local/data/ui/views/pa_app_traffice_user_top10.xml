@@ -1,0 +1,70 @@
+<form>
+  <label>ユーザ別許可通信量分析TOP10</label>
+  <fieldset submitButton="true">
+    <input type="text" token="start_date">
+      <label>Start Date</label>
+    </input>
+    <input type="text" token="end_date">
+      <label>End Date</label>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>ユーザ別通信量分析 TOP10 (円グラフ)</title>
+      <chart>
+        <title>許可通信(アプリケーション)を対象として月間で通信量が多かった利用者の上位10件は以下の通りです。内容をご確認の上、通信量の傾向分析にお役立てください。なお、PAファイアウォール機器にてユーザ認証を行なっていない場合、ユーザ名の代わりに送信元IPアドレスを用いて分析しております。</title>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND date &gt; $start_date$ AND date &lt; $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb) by srcip
+| rename srcip as user
+| sort - sum(mb)
+| head 10
+| rename sum(mb) as 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>全体の通信量(MB)</title>
+      <single>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND date &gt; $start_date$ AND date &lt; $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <title>ユーザ別通信量分析 TOP10 (表)</title>
+      <table>
+        <search>
+          <query>| dbxquery query="SELECT * FROM agrex.public.app_report" connection="postgresql"
+| search act=allow AND date &gt; $start_date$ AND date &lt; $end_date$
+| eval mb=round(bytes/1048576, 2)
+| stats sum(mb) by srcip
+| rename srcip as user
+| sort - sum(mb)
+| head 10
+| rename sum(mb) as 通信量(MB)</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>
